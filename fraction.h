@@ -1,21 +1,22 @@
-#pragma once
+#ifndef FRACTION_H
+#define FRACTION_H
 
 #include <iostream>
-#include <string>
 
 using namespace std;
-
-int GCD(int a, int b); //greatest common division
-
-int LCM(int a, int b); //least common multiple
 
 class Fraction{
 private:
     int numerator;
     int denominator;
 public:
+    Fraction();
     Fraction(int _numerator, int _denominator);
     int GCD();
+    int getTotalSymbols();
+    bool operator<(const Fraction& a);
+    bool operator>(const Fraction& a);
+    bool operator==(const Fraction& a);
     Fraction& operator+(const Fraction& a);
     Fraction& operator-(const Fraction& a);
     Fraction& operator*(const Fraction& a);
@@ -25,4 +26,9 @@ public:
     Fraction& operator*=(const Fraction& a);
     Fraction& operator/=(const Fraction& a);
     friend std::ostream& operator<< (std::ostream &out, const Fraction &a);
+    friend std::istream& operator>> (std::istream& in, Fraction& a);
 };
+
+void swapFraction(Fraction& a, Fraction& b);
+
+#endif
