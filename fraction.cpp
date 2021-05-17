@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <numeric>
 
 Fraction::Fraction():numerator(1), denominator(1) {}
 
@@ -12,18 +13,13 @@ Fraction::Fraction(int _numerator, int _denominator)
 }
 
 int Fraction::GCD(){
-    int a = abs(numerator);
-    int b = abs(denominator);
-        while(a && b) {
-        if(a > b)
-            a %= b;
-        else
-            b %= a;
-    }
-    numerator /= (a+b);
-    denominator /= (a+b);
-    return a+b;
+    long gcd = std::gcd(abs(numerator), abs(denominator));
+    numerator /= gcd;
+    denominator /= gcd;
+    return gcd;
 }
+
+int Fraction::getDenominator() { return denominator; }
 
 int Fraction::getTotalSymbols() {
     if (denominator == 1) {
@@ -46,47 +42,44 @@ int Fraction::getTotalSymbols() {
 
 bool Fraction::operator<(const Fraction& a) {
     int num1 = numerator;
-    int den1 = denominator;
-    int num2 = a.numerator;
-    int den2 = a.denominator;
-    
-    num1 *= LCM(den1, den2) / den1;
-    num2 *= LCM(den1, den2) / den2;
+    int num2 = a.numerator; 
+    num1 *= std::lcm(denominator, a.denominator) / denominator;
+    num2 *= std::lcm(denominator, a.denominator) / a.denominator;
 
     return (num1 < num2);
 }
 
 bool Fraction::operator>(const Fraction& a) {
     int num1 = numerator;
-    int den1 = denominator;
     int num2 = a.numerator;
-    int den2 = a.denominator;
-
-    num1 *= LCM(den1, den2) / den1;
-    num2 *= LCM(den1, den2) / den2;
+    num1 *= std::lcm(denominator, a.denominator) / denominator;
+    num2 *= std::lcm(denominator, a.denominator) / a.denominator;
 
     return (num1 > num2);
 }
 
 bool Fraction::operator==(const Fraction& a) {
     int num1 = numerator;
-    int den1 = denominator;
     int num2 = a.numerator;
-    int den2 = a.denominator;
-
-    num1 *= LCM(den1, den2) / den1;
-    num2 *= LCM(den1, den2) / den2;
+    num1 *= std::lcm(denominator, a.denominator) / denominator;
+    num2 *= std::lcm(denominator, a.denominator) / a.denominator;
 
     return (num1 == num2);
+}
+
+bool Fraction::operator!=(const Fraction& a) {
+    return !(*this == a);
 }
 
 Fraction& Fraction::operator+(const Fraction& a){
     int _numerator = a.numerator;
     int _denominator = a.denominator;
-    numerator *= LCM(denominator, _denominator) / denominator;
-    _numerator *= LCM(denominator, _denominator) / _denominator;
+
+    numerator *= std::lcm(denominator, _denominator) / denominator;
+    _numerator *= std::lcm(denominator, _denominator) / _denominator;
+
     numerator = numerator + _numerator;
-    denominator = LCM(denominator, _denominator);
+    denominator = std::lcm(denominator, _denominator);
     GCD();
     return *this;
 }
@@ -94,10 +87,10 @@ Fraction& Fraction::operator+(const Fraction& a){
 Fraction& Fraction::operator-(const Fraction& a){
     int _numerator = a.numerator;
     int _denominator = a.denominator;
-    numerator *= LCM(denominator, _denominator) / denominator;
-    _numerator *= LCM(denominator, _denominator) / _denominator;
+    numerator *= std::lcm(denominator, _denominator) / denominator;
+    _numerator *= std::lcm(denominator, _denominator) / _denominator;
     numerator = numerator - _numerator;
-    denominator = LCM(denominator, _denominator);
+    denominator = std::lcm(denominator, _denominator);
     GCD();
     return *this;
 }
@@ -112,6 +105,11 @@ Fraction& Fraction::operator*(const Fraction& a){
 }
 
 Fraction& Fraction::operator/(const Fraction& a){
+    if (a.denominator == 0 && a.numerator != 0) {
+        numerator = 0;
+        denominator = 1;
+        return *this;
+    }
     int _numerator = a.denominator;
     int _denominator = a.numerator;
     numerator *= _numerator;
@@ -127,10 +125,10 @@ Fraction& Fraction::operator/(const Fraction& a){
 Fraction& Fraction::operator+=(const Fraction& a){
     int _numerator = a.numerator;
     int _denominator = a.denominator;
-    numerator *= LCM(denominator, _denominator) / denominator;
-    _numerator *= LCM(denominator, _denominator) / _denominator;
+    numerator *= std::lcm(denominator, _denominator) / denominator;
+    _numerator *= std::lcm(denominator, _denominator) / _denominator;
     numerator = numerator + _numerator;
-    denominator = LCM(denominator, _denominator);
+    denominator = std::lcm(denominator, _denominator);
     GCD();
     return *this;
 }
@@ -138,10 +136,10 @@ Fraction& Fraction::operator+=(const Fraction& a){
 Fraction& Fraction::operator-=(const Fraction& a){
     int _numerator = a.numerator;
     int _denominator = a.denominator;
-    numerator *= LCM(denominator, _denominator) / denominator;
-    _numerator *= LCM(denominator, _denominator) / _denominator;
+    numerator *= std::lcm(denominator, _denominator) / denominator;
+    _numerator *= std::lcm(denominator, _denominator) / _denominator;
     numerator = numerator - _numerator;
-    denominator = LCM(denominator, _denominator);
+    denominator = std::lcm(denominator, _denominator);
     GCD();
     return *this;
 }
@@ -156,6 +154,11 @@ Fraction& Fraction::operator*=(const Fraction& a){
 }
 
 Fraction& Fraction::operator/=(const Fraction& a){
+    if (a.denominator == 0 && a.numerator != 0) {
+        numerator = 0;
+        denominator = 1;
+        return *this;
+    }
     int _numerator = a.denominator;
     int _denominator = a.numerator;
     numerator *= _numerator;
@@ -194,7 +197,7 @@ std::istream& operator>> (std::istream& in, Fraction& a)
             std::cout << "Wrong format! Enter fraction (num/den or num): ";
             in >> strBuff;
         }  
-    } while (strBuff.find_first_not_of("1234567890/") != std::string::npos);
+    } while (strBuff.find_first_not_of("1234567890/-") != std::string::npos);
     if (strBuff.find_first_of("/") == std::string::npos) {
         a.numerator = std::stoi(strBuff.substr(0, strBuff.length()));
         a.denominator = 1;

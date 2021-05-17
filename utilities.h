@@ -5,10 +5,6 @@
 
 int digitsOfNumber(int x);
 
-int GCD(int a, int b); //greatest common division
-
-int LCM(int a, int b); //least common multiple
-
 void clear();
 
 #ifdef __linux__

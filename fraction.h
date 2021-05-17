@@ -14,9 +14,11 @@ public:
     Fraction(int _numerator, int _denominator);
     int GCD();
     int getTotalSymbols();
+    int getDenominator();
     bool operator<(const Fraction& a);
     bool operator>(const Fraction& a);
     bool operator==(const Fraction& a);
+    bool operator!=(const Fraction& a);
     Fraction& operator+(const Fraction& a);
     Fraction& operator-(const Fraction& a);
     Fraction& operator*(const Fraction& a);

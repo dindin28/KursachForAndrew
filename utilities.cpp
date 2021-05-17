@@ -8,24 +8,6 @@ int digitsOfNumber(int x) {
 	return n;
 }
 
-int GCD(int a, int b) {
-    if (a == 0 || b == 0) return 1;
-    long div;
-    if (a == b)  return a;
-    long d = a - b;
-    if (d < 0) {
-        d = -d;  div = GCD(a, d);
-    }
-    else
-        div = GCD(b, d);
-    return div;
-}
-
-int LCM(int a, int b) {
-    if (a == 0 || b == 0) return 0;
-    return a * b / GCD(a, b);
-}
-
 #ifdef __linux__
 void clear() {
     std::system("clear");

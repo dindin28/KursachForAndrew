@@ -7,10 +7,18 @@ class Matrix {
 private:
 	int rows;
 	int columns;
+	bool expanded;
 	Fraction* ptr;
 public:
 	Matrix();
-	Matrix(int rows, int columns);
+	Matrix(int rows, int columns, bool state);
+	void setExpanded(bool state);
+	bool getExpanded();
+	Matrix expandedToMain();
+	int rowsWithZeros();
+	int rang();
+	int findFirstNonZero(int row);
+	void checkDenominators();
 	int findRowWithMax(int column, int row);
 	void normalizeRow(int row);
 	void swapRows(int row1, int row2);
