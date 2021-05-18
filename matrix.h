@@ -17,12 +17,19 @@ public:
 	Matrix expandedToMain();
 	int rowsWithZeros();
 	int rang();
+	int getRows();
+	int getColumns();
 	int findFirstNonZero(int row);
 	void checkDenominators();
+	Matrix getMatrixForCramera(int column);
 	int findRowWithMax(int column, int row);
 	void normalizeRow(int row);
 	void swapRows(int row1, int row2);
-	void gauss();
+	Matrix gauss(Fraction *arr, int& size);
+	void cramera(Fraction* arr, int& size);
+	Matrix montane(Fraction *arr, int& size);
+	void normalizeMatrix();
+	Fraction determinant();
 	void subtractRows(int row1, int row2);
 	bool compatibility(); //סמגלוסעטלמסעü
 	Matrix(const Matrix& copy);

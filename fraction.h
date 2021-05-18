@@ -15,12 +15,16 @@ public:
     int GCD();
     int getTotalSymbols();
     int getDenominator();
+    void setDenominator(int a);
+    int getNumerator();
+    void setNumerator(int a);
     bool operator<(const Fraction& a);
     bool operator>(const Fraction& a);
     bool operator==(const Fraction& a);
     bool operator!=(const Fraction& a);
     Fraction& operator+(const Fraction& a);
     Fraction& operator-(const Fraction& a);
+    Fraction& operator-();
     Fraction& operator*(const Fraction& a);
     Fraction& operator/(const Fraction& a);
     Fraction& operator+=(const Fraction& a);
@@ -32,5 +36,6 @@ public:
 };
 
 void swapFraction(Fraction& a, Fraction& b);
+Fraction gcdForFra(Fraction a, Fraction b);
 
 #endif

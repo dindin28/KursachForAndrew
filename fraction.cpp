@@ -20,6 +20,9 @@ int Fraction::GCD(){
 }
 
 int Fraction::getDenominator() { return denominator; }
+void Fraction::setDenominator(int a) { denominator = a; }
+int Fraction::getNumerator() { return numerator; }
+void Fraction::setNumerator(int a) { numerator = a; }
 
 int Fraction::getTotalSymbols() {
     if (denominator == 1) {
@@ -95,6 +98,11 @@ Fraction& Fraction::operator-(const Fraction& a){
     return *this;
 }
 
+Fraction& Fraction::operator-() {
+    numerator = -numerator;
+    return *this;
+}
+
 Fraction& Fraction::operator*(const Fraction& a){
     int _numerator = a.numerator;
     int _denominator = a.denominator;
@@ -102,6 +110,13 @@ Fraction& Fraction::operator*(const Fraction& a){
     denominator *= _denominator;
     GCD();
     return *this;
+}
+
+Fraction gcdForFra(Fraction a, Fraction b) {
+    long comDen = std::lcm(a.getDenominator(), b.getDenominator());
+    int firNum = a.getNumerator() * (comDen / a.getDenominator());
+    int secNum = b.getNumerator() * (comDen / b.getDenominator());
+    return Fraction(std::gcd(firNum, secNum), comDen);
 }
 
 Fraction& Fraction::operator/(const Fraction& a){
